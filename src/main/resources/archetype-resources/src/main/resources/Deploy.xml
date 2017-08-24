@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE module PUBLIC
+		"Devocative/Demeter Module"
+		"http://www.devocative.org/dtd/demeter-module.dtd">
+
+<module
+		shortName="DPL"
+		mainClass="${package}.DeployDModule"
+		mainResource="${package}.web.DeployDModule"
+		configKeyClass="${package}.DeployConfigKey"
+		privilegeKeyClass="${package}.DeployPrivilegeKey">
+	<entities>
+	</entities>
+
+	<tasks>
+	</tasks>
+
+	<dPages>
+	</dPages>
+</module>

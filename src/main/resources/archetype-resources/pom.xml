@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>${groupId}</groupId>
+	<artifactId>${artifactId}</artifactId>
+	<packaging>war</packaging>
+	<version>${version}</version>
+
+	<name>${DeploymentTarget}-deploy</name>
+
+	<properties>
+		<build.date>?</build.date>
+
+		<tomcat.server.url>http://?:8080/manager/text</tomcat.server.url>
+		<tomcat.server.id>TomcatServer</tomcat.server.id>
+		<tomcat.context>/${DeploymentTarget}</tomcat.context>
+
+		<lang.level>1.8</lang.level>
+		<jetty.port>8080</jetty.port>
+		<jetty.context>/ctx</jetty.context>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+		<d.demeter.ver>1.0-SNAPSHOT</d.demeter.ver>
+
+		<diadem.bundle>org.devocative:diadem:1.2</diadem.bundle>
+
+		<p.jetty.ver>9.2.15.v20160210</p.jetty.ver>
+		<p.compiler.ver>3.5.1</p.compiler.ver>
+		<p.remote.rsrc.ver>1.5</p.remote.rsrc.ver>
+		<p.war.ver>3.0.0</p.war.ver>
+		<p.tomcat7.ver>2.2</p.tomcat7.ver>
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.devocative</groupId>
+			<artifactId>demeter-service</artifactId>
+			<version>${d.demeter.ver}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.devocative</groupId>
+			<artifactId>demeter-web</artifactId>
+			<version>${d.demeter.ver}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.oracle</groupId>
+			<artifactId>ojdbc6</artifactId>
+			<version>11.2.0.4.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>net.logstash.log4j</groupId>
+			<artifactId>jsonevent-layout</artifactId>
+			<version>1.7</version>
+		</dependency>
+
+	</dependencies>
+
+	<build>
+		<resources>
+			<!-- FILTERED -->
+			<resource>
+				<filtering>true</filtering>
+				<directory>src/main/resources</directory>
+			</resource>
+
+
+			<resource>
+				<filtering>false</filtering>
+				<directory>src/main/java</directory>
+				<includes>
+					<include>**</include>
+				</includes>
+				<excludes>
+					<exclude>**/*.java</exclude>
+				</excludes>
+			</resource>
+		</resources>
+
+		<plugins>
+			<!-- Compiler -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>${p.compiler.ver}</version>
+				<configuration>
+					<source>${lang.level}</source>
+					<target>${lang.level}</target>
+					<encoding>UTF-8</encoding>
+					<debug>true</debug>
+					<optimize>true</optimize>
+				</configuration>
+			</plugin>
+
+			<!-- War -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-war-plugin</artifactId>
+				<version>${p.war.ver}</version>
+
+				<configuration>
+					<filteringDeploymentDescriptors>true</filteringDeploymentDescriptors>
+				</configuration>
+			</plugin>
+
+			<!-- Jetty -->
+			<plugin>
+				<groupId>org.eclipse.jetty</groupId>
+				<artifactId>jetty-maven-plugin</artifactId>
+				<version>${p.jetty.ver}</version>
+				<configuration>
+					<useTestScope>true</useTestScope>
+					<webAppSourceDirectory>src/main/webapp</webAppSourceDirectory>
+					<webApp>
+						<contextPath>${jetty.context}</contextPath>
+					</webApp>
+					<httpConnector>
+						<port>8080</port>
+					</httpConnector>
+				</configuration>
+			</plugin>
+
+			<!-- Remote Resource -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-remote-resources-plugin</artifactId>
+				<version>${p.remote.rsrc.ver}</version>
+				<configuration>
+					<outputDirectory>src/main/webapp</outputDirectory>
+					<resourceBundles>
+						<resourceBundle>${diadem.bundle}</resourceBundle>
+					</resourceBundles>
+				</configuration>
+				<executions>
+					<execution>
+						<phase>initialize</phase>
+						<goals>
+							<goal>process</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+			<!-- Tomcat 7 Deployment -->
+			<plugin>
+				<groupId>org.apache.tomcat.maven</groupId>
+				<artifactId>tomcat7-maven-plugin</artifactId>
+				<version>${p.tomcat7.ver}</version>
+				<configuration>
+					<url>${tomcat.server.url}</url>
+					<server>${tomcat.server.id}</server>
+					<path>${tomcat.context}</path>
+				</configuration>
+			</plugin>
+
+			<!-- Devolcano -->
+			<plugin>
+				<groupId>org.devocative</groupId>
+				<artifactId>demeter-maven-plugin</artifactId>
+				<version>1.0-SNAPSHOT</version>
+				<configuration>
+					<keyStoreDir>src/main/resources</keyStoreDir>
+
+					<key></key>
+					<keyEntry></keyEntry>
+					<keyStorePass></keyStorePass>
+					<protectionParam></protectionParam>
+				</configuration>
+			</plugin>
+
+		</plugins>
+	</build>
+
+	<!--<distributionManagement>
+		<snapshotRepository>
+			<id></id>
+			<url></url>
+		</snapshotRepository>
+		<repository>
+			<id></id>
+			<url></url>
+		</repository>
+	</distributionManagement>-->
+</project>

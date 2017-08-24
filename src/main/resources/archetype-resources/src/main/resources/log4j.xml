@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+
+<log4j:configuration>
+
+	<appender name="MAIN" class="org.apache.log4j.RollingFileAppender">
+		<param name="file" value="${catalina.home}/logs/${DeploymentTarget}_${project.version}.log"/>
+		<param name="append" value="true"/>
+		<param name="MaxFileSize" value="10MB"/>
+		<param name="MaxBackupIndex" value="5"/>
+
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="[%p] (%-9t %d) %m%n"/>
+		</layout>
+	</appender>
+
+	<appender name="JSON" class="org.apache.log4j.RollingFileAppender">
+		<param name="file" value="${catalina.home}/logs/${DeploymentTarget}_${project.version}.json"/>
+		<param name="append" value="true"/>
+		<param name="MaxFileSize" value="20MB"/>
+		<param name="MaxBackupIndex" value="5"/>
+
+		<layout class="net.logstash.log4j.JSONEventLayoutV1">
+			<param name="locationInfo" value="false"/>
+		</layout>
+	</appender>
+
+	<!--<appender name="CONSOLE" class="org.apache.log4j.ConsoleAppender">
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="[%p] (%-9t %d) %m%n"/>
+		</layout>
+	</appender>-->
+
+	<logger name="org.devocative" additivity="false">
+		<level value="INFO"/>
+
+		<appender-ref ref="MAIN"/>
+		<appender-ref ref="JSON"/>
+		<!--<appender-ref ref="CONSOLE"/>-->
+	</logger>
+
+	<logger name="${package}" additivity="false">
+		<level value="INFO"/>
+
+		<appender-ref ref="MAIN"/>
+		<appender-ref ref="JSON"/>
+		<!--<appender-ref ref="CONSOLE"/>-->
+	</logger>
+
+	<root>
+		<level value="WARN"/>
+
+		<appender-ref ref="MAIN"/>
+		<appender-ref ref="JSON"/>
+		<!--<appender-ref ref="CONSOLE"/>-->
+	</root>
+</log4j:configuration>
+
