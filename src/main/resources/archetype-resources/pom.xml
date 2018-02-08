@@ -8,14 +8,14 @@
 	<packaging>war</packaging>
 	<version>${version}</version>
 
-	<name>${DeploymentTarget}-deploy</name>
+	<name>${DeploymentTarget.toLowerCase()}</name>
 
 	<properties>
 		<build.date>?</build.date>
 
-		<tomcat.server.url>http://?:8080/manager/text</tomcat.server.url>
+		<tomcat.server.url>http://localhost:8080/manager/text</tomcat.server.url>
 		<tomcat.server.id>TomcatServer</tomcat.server.id>
-		<tomcat.context>/${DeploymentTarget}</tomcat.context>
+		<tomcat.context>/${DeploymentTarget.toLowerCase()}</tomcat.context>
 
 		<lang.level>1.8</lang.level>
 		<jetty.port>8080</jetty.port>
@@ -26,7 +26,7 @@
 
 		<diadem.bundle>org.devocative:diadem:1.2</diadem.bundle>
 
-		<p.jetty.ver>9.2.15.v20160210</p.jetty.ver>
+		<p.jetty.ver>9.4.6.v20170531</p.jetty.ver>
 		<p.compiler.ver>3.5.1</p.compiler.ver>
 		<p.remote.rsrc.ver>1.5</p.remote.rsrc.ver>
 		<p.war.ver>3.0.0</p.war.ver>
@@ -34,28 +34,23 @@
 	</properties>
 
 	<dependencies>
-		<dependency>
-			<groupId>org.devocative</groupId>
-			<artifactId>demeter-service</artifactId>
-			<version>${d.demeter.ver}</version>
-		</dependency>
 
 		<dependency>
 			<groupId>org.devocative</groupId>
-			<artifactId>demeter-web</artifactId>
+			<artifactId>demeter-module</artifactId>
 			<version>${d.demeter.ver}</version>
-		</dependency>
-
-		<dependency>
-			<groupId>com.oracle</groupId>
-			<artifactId>ojdbc6</artifactId>
-			<version>11.2.0.4.0</version>
 		</dependency>
 
 		<dependency>
 			<groupId>net.logstash.log4j</groupId>
 			<artifactId>jsonevent-layout</artifactId>
 			<version>1.7</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.hsqldb</groupId>
+			<artifactId>hsqldb</artifactId>
+			<version>2.4.0</version>
 		</dependency>
 
 	</dependencies>
@@ -129,7 +124,7 @@
 						<contextPath>${jetty.context}</contextPath>
 					</webApp>
 					<httpConnector>
-						<port>8080</port>
+						<port>${jetty.port}</port>
 					</httpConnector>
 				</configuration>
 			</plugin>
@@ -195,4 +190,8 @@
 			<url></url>
 		</repository>
 	</distributionManagement>-->
+
+	<prerequisites>
+		<maven>3.0</maven>
+	</prerequisites>
 </project>

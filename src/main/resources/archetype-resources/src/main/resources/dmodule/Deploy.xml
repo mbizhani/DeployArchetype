@@ -6,7 +6,6 @@
 
 <module
 		shortName="DPL"
-		mainClass="${package}.DeployDModule"
 		mainResource="${package}.web.DeployDModule"
 		configKeyClass="${package}.DeployConfigKey"
 		privilegeKeyClass="${package}.DeployPrivilegeKey">
