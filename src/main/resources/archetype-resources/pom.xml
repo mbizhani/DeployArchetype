@@ -22,7 +22,7 @@
 		<jetty.context>/ctx</jetty.context>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-		<d.demeter.ver>1.0-SNAPSHOT</d.demeter.ver>
+		<d.demeter.ver>1.0</d.demeter.ver>
 
 		<diadem.bundle>org.devocative:diadem:1.2</diadem.bundle>
 
@@ -40,6 +40,8 @@
 			<artifactId>demeter-module</artifactId>
 			<version>${d.demeter.ver}</version>
 		</dependency>
+
+		<!-- Only add other DModules' "module" artifact -->
 
 		<dependency>
 			<groupId>net.logstash.log4j</groupId>
